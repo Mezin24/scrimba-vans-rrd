@@ -474,3 +474,9 @@ i[class*='van-type-'] {
   background-color: #161616;
   color: white;
 }
+
+.host-nav .active-link {
+  color: #161616;
+  text-decoration: underline;
+  font-weight: bold;
+}

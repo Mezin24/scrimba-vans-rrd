@@ -1,25 +1,24 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Home, About, Vans, VanDetails } from './pages';
+import { Layout, HostLayout } from './components';
+import { Dashboard, Income, Reviews, HostVans } from './pages/Host/';
 
 function App() {
   return (
-    <>
-      <header>
-        <Link className='site-logo' to='/'>
-          #vanlife
-        </Link>
-        <nav>
-          <Link to='/about'>About</Link>
-          <Link to='/vans'>Vans</Link>
-        </nav>
-      </header>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/vans' element={<Vans />} />
-        <Route path='/vans/:id' element={<VanDetails />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path='about' element={<About />} />
+        <Route path='vans' element={<Vans />} />
+        <Route path='vans/:id' element={<VanDetails />} />
+        <Route path='host' element={<HostLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path='income' element={<Income />} />
+          <Route path='reviews' element={<Reviews />} />
+          <Route path='vans' element={<HostVans />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 
