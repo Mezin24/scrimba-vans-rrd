@@ -1,7 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import { Home, About, Vans, VanDetails } from './pages';
 import { Layout, HostLayout } from './components';
-import { Dashboard, Income, Reviews, HostVans } from './pages/Host/';
+import {
+  Dashboard,
+  Income,
+  Reviews,
+  HostVans,
+  HostVanDetails,
+} from './pages/Host/';
 
 function App() {
   return (
@@ -16,6 +22,7 @@ function App() {
           <Route path='income' element={<Income />} />
           <Route path='reviews' element={<Reviews />} />
           <Route path='vans' element={<HostVans />} />
+          <Route path='vans/:id' element={<HostVanDetails />} />
         </Route>
       </Route>
     </Routes>
