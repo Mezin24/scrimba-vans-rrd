@@ -59,7 +59,7 @@ export const HostVanDetails = () => {
             Photos
           </NavLink>
         </nav>
-        <Outlet />
+        <Outlet context={{ van }} />
       </div>
     </section>
   );
