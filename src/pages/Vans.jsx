@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { customFetch } from '../utils/axios';
+import { getVans } from '../utils/getVans';
 
 export const Vans = () => {
   const [vans, setVans] = useState(null);
@@ -9,7 +9,7 @@ export const Vans = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await customFetch.get('/vans');
+      const data = getVans();
       setVans(data);
     };
     fetchData();
@@ -19,18 +19,34 @@ export const Vans = () => {
     return <h1>Loading...</h1>;
   }
 
-  const filterTypes = [...new Set(vans.map((van) => van.type)), 'all vans'];
+  const filterTypes = [...new Set(vans.map((van) => van.type))];
+  if (typeFilter) {
+    filterTypes.push('all vans');
+  }
+
+  // const filters = filterTypes.map((item) => (
+  //   <Link
+  //     className={`van-type ${item === 'all vans' ? 'clear-filters' : item} ${
+  //       typeFilter === item ? 'selected' : null
+  //     }`}
+  //     key={item}
+  //     to={item === 'all vans' ? '.' : `.?type=${item}`}
+  //   >
+  //     {item}
+  //   </Link>
+  // ));
 
   const filters = filterTypes.map((item) => (
-    <Link
+    <button
       className={`van-type ${item === 'all vans' ? 'clear-filters' : item} ${
         typeFilter === item ? 'selected' : null
       }`}
       key={item}
       to={item === 'all vans' ? '.' : `.?type=${item}`}
+      onClick={() => setSearchParams(item === 'all vans' ? {} : { type: item })}
     >
       {item}
-    </Link>
+    </button>
   ));
 
   const filteredVans = typeFilter
@@ -39,7 +55,7 @@ export const Vans = () => {
 
   const renderVans = filteredVans.map((van) => (
     <article key={van.id} className='van-tile'>
-      <Link to={`${van.id}`}>
+      <Link to={van.id} state={{ search: searchParams.toString() }}>
         <img alt={van.name} src={van.imageUrl} />
         <div className='van-info'>
           <h3>{van.name}</h3>

@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { Home, About, Vans, VanDetails } from './pages';
+import { Home, About, Vans, VanDetails, NotFound } from './pages';
 import { Layout, HostLayout } from './components';
 import {
   Dashboard,
@@ -31,6 +31,7 @@ function App() {
             <Route path='pricing' element={<HostVanPricing />} />
           </Route>
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Route>
     </Routes>
   );

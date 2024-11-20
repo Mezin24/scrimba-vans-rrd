@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { customFetch } from '../utils/axios';
 
 export const VanDetails = () => {
   const { id } = useParams();
   const [van, setVan] = useState(null);
+  const { state } = useLocation();
+  const search = state?.search ? `?${state.search}` : '';
+  const filterType = state.search
+    ? state.search.replace('type=', '')
+    : 'all vans';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,9 +22,9 @@ export const VanDetails = () => {
 
   return (
     <div className='van-detail-container'>
-      {/* <Link to={`..${search}`} className='back-button' relative='path'>
-        &larr; <span>Back to {backTo} vans</span>
-      </Link> */}
+      <Link to={`..${search}`} className='back-button' relative='path'>
+        &larr; <span>Back to {filterType}</span>
+      </Link>
       {van ? (
         <div className='van-detail'>
           <img alt={van.name} src={van.imageUrl} />
