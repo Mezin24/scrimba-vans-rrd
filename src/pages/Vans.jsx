@@ -1,37 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLoaderData, useSearchParams } from 'react-router-dom';
 import { getVans } from '../utils/getVans';
 
+export const loader = async () => {
+  const data = await getVans();
+  return data;
+};
+
 export const Vans = () => {
-  const [vans, setVans] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const typeFilter = searchParams.get('type');
+  const vans = useLoaderData();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await getVans();
-        setVans(data);
-      } catch (error) {
-        console.log('Something went wrong');
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  // if (loading) {
+  //   return <h1>Loading...</h1>;
+  // }
 
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
+  // if (error) {
+  //   return <h1>{error}</h1>;
+  // }
 
-  if (error) {
-    return <h1>{error}</h1>;
-  }
   const filterTypes = [...new Set(vans.map((van) => van.type))];
   if (typeFilter) {
     filterTypes.push('all vans');
